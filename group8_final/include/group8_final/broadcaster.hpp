@@ -197,27 +197,27 @@ private:
     geometry_msgs::msg::TransformStamped camera5_static_transform_stamped_;
 
     /**
-     * @brief TransformStamped message for part detected by camera1
+     * @brief TransformStamped message for camera1 detected by world
      */
     geometry_msgs::msg::TransformStamped frame1_static_transform_stamped_;
 
     /**
-     * @brief TransformStamped message for part detected by camera2
+     * @brief TransformStamped message for camera2 detected by world
      */
     geometry_msgs::msg::TransformStamped frame2_static_transform_stamped_;
 
     /**
-     * @brief TransformStamped message for part detected by camera3
+     * @brief TransformStamped message for camera3 detected by world
      */
     geometry_msgs::msg::TransformStamped frame3_static_transform_stamped_;
 
     /**
-     * @brief TransformStamped message for part detected by camera4
+     * @brief TransformStamped message for camera4 detected by world
      */
     geometry_msgs::msg::TransformStamped frame4_static_transform_stamped_;
 
     /**
-     * @brief TransformStamped message for part detected by camera5
+     * @brief TransformStamped message for camera5 detected by world
      */
     geometry_msgs::msg::TransformStamped frame5_static_transform_stamped_;
 };

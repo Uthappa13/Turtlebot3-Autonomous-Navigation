@@ -34,6 +34,7 @@ class Turtlebot : public rclcpp::Node {
    */
  public:
 
+  // creating alias
   using Followwaypoints = nav2_msgs::action::FollowWaypoints;
   using Followwaypointsgoalhandle = rclcpp_action::ClientGoalHandle<Followwaypoints>;
 
@@ -76,28 +77,28 @@ class Turtlebot : public rclcpp::Node {
 
 
       // load a buffer of transforms
-       tf_buffer_ =
+      tf_buffer_ =
           std::make_unique<tf2_ros::Buffer>(this->get_clock());
-       transform_listener_ =
+      transform_listener_ =
           std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 
       // timer to listen to the transform of part1
-       part1_listen_timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&Turtlebot::part1_listen_timer_cb, this));
+      part1_listen_timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&Turtlebot::part1_listen_timer_cb, this));
 
       // timer to listen to the transform of part2
-       part2_listen_timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&Turtlebot::part2_listen_timer_cb, this));
+      part2_listen_timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&Turtlebot::part2_listen_timer_cb, this));
 
       // timer to listen to the transform of part3
-       part3_listen_timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&Turtlebot::part3_listen_timer_cb, this));
+      part3_listen_timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&Turtlebot::part3_listen_timer_cb, this));
 
       // timer to listen to the transform of part4
-       part4_listen_timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&Turtlebot::part4_listen_timer_cb, this));
+      part4_listen_timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&Turtlebot::part4_listen_timer_cb, this));
 
       // timer to listen to the transform of part5
-       part5_listen_timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&Turtlebot::part5_listen_timer_cb, this));
+      part5_listen_timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&Turtlebot::part5_listen_timer_cb, this));
 
       // Define the Quality of Service profile for the subscriptions
-       auto qos_profile = rclcpp::SensorDataQoS();
+      auto qos_profile = rclcpp::SensorDataQoS();
 
       // Create a subscription to the "/mage/camera1/image" topic
       Camera1subscription_ = this->create_subscription<mage_msgs::msg::AdvancedLogicalCameraImage>("/mage/camera1/image", qos_profile , std::bind(&Turtlebot::camera1_sub_cb, this, std::placeholders::_1));
@@ -114,6 +115,7 @@ class Turtlebot : public rclcpp::Node {
       // Create a subscription to the "/mage/camera5/image" topic
       Camera5subscription_ = this->create_subscription<mage_msgs::msg::AdvancedLogicalCameraImage>("/mage/camera5/image", qos_profile , std::bind(&Turtlebot::camera5_sub_cb, this, std::placeholders::_1));
 
+      // Create a subscription to the aruco_marker topic
       Arucosubscription_ = this->create_subscription<ros2_aruco_interfaces::msg::ArucoMarkers>("aruco_markers", 10, std::bind(&Turtlebot::turtlebot_aruco_sub_cb, this, std::placeholders::_1));
 
   }
@@ -132,19 +134,13 @@ class Turtlebot : public rclcpp::Node {
     rclcpp_action::Client<Followwaypoints>::SharedPtr client_;
 
     /**
-     * @brief 
+     * @brief callback function to check status of goal
      * 
      * @param future 
      */
     void goal_response_callback(std::shared_future<Followwaypointsgoalhandle::SharedPtr> future);
     /**
-     * @brief 
-     * 
-     * @param feedback 
-     */
-    // void feedback_callback(Followwaypointsgoalhandle::SharedPtr, const std::shared_ptr<const Followwaypoints::Feedback> feedback);
-    /**
-     * @brief 
+     * @brief callback function to check the final status of goal
      * 
      * @param result 
      */
@@ -159,7 +155,6 @@ class Turtlebot : public rclcpp::Node {
      * 
      */
     void send_goal();
-    // const std::vector<geometry_msgs::msg::Pose> &waypoints 
 
     /**
      * @brief Buffer to store transform data for easy lookup
@@ -349,71 +344,35 @@ class Turtlebot : public rclcpp::Node {
 
     int part5_color_;
 
+    // declare vector to store part colors
     std::vector<int> part_color_;
 
+    // declare vector to store x-positions of parts
     std::vector<double> X_position_;
 
+    // declare vector to store y-positions of parts
     std::vector<double> Y_position_;
-
-    std::vector<double> Z_position_;
-
-    std::vector<double> X_orientation_;
-
-    std::vector<double> Y_orientation_;
-
-    std::vector<double> Z_orientation_;
-
-    std::vector<double> W_orientation_;
-
-  //   int part_type{};
 
     // declaration of counter variables
     int check1_{0};
-
     int check2_{0};
-
     int check3_{0};
-
-  //   int print_{0};
 
     // declaration of vectors to store pose
     std::vector<double> part1_pose_;
-
     std::vector<double> part2_pose_;
-
     std::vector<double> part3_pose_;
-
     std::vector<double> part4_pose_;
-
     std::vector<double> part5_pose_;
 
-  //   // declaration of vectors to handle part color and type
-  //   std::vector<std::string> part_color_name_;
-
-	// std::vector<int>part_color_;
-
-  //   std::vector<int>part_type_;
-
-  //   // declaration of aruco marker parameter variables
-  //   std::string aruco_marker_0_;
-
-  //   std::string aruco_marker_1_;
-
-  //   std::string aruco_marker_2_;
-
-  // declaration of variable to store aruco marker value
+    // declaration of variable to store aruco marker value
     int marker_value_{};
 
-  // Declare a vector to store the navigation order
+    // Declare a vector of type string to store the navigation order
     std::vector<std::string> nav_order_;
 
-  // Declare a vector to store the navigation order
+    // Declare a vector of type int to store the navigation parameter order
     std::vector<int> nav_order_param_;
 
-  //   // declaration of variable to store aruco marker position
-  //   double x_position_{};
-
-
-
-};  // class Turtlebot
+  };  // class Turtlebot
 }  // namespace Mazenavigation

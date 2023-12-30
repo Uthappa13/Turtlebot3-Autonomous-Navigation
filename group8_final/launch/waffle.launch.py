@@ -10,24 +10,21 @@ from launch_ros.actions import Node
 def generate_launch_description():
    
     parameter_file = os.path.join(
-    get_package_share_directory('group8'),
+    get_package_share_directory('group8_final'),
     'config',
     'waypoint_params.yaml'
     )
-    
     
     ld = LaunchDescription([
         launch_ros.actions.SetParameter(name='use_sim_time', value=True),
     ])
     
-
     Turtlebot_navigation = Node(
-        package="group8",
+        package="group8_final",
         executable="Turtlebot_navigation",
         parameters=[parameter_file, {'use_sim_time': True}],
         output='screen',
     )
   
-    
     ld.add_action(Turtlebot_navigation)
     return ld
